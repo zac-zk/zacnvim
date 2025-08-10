@@ -47,14 +47,6 @@ function M.setup()
     end,
   })
 
-  api.nvim_create_autocmd("BufWritePost", {
-    pattern = { "init.lua", "lua/**/*.lua" },  -- 根据你配置目录调整
-    callback = function()
-      print("配置文件已保存，重新加载中...")
-      -- 重新加载主配置文件
-      dofile(vim.fn.stdpath("config") .. "/init.lua")
-    end,
-  })
 end
 
 return M
