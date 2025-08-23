@@ -39,7 +39,16 @@ return {
       }
 
       local servers = {
-        clangd = {},
+        clangd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--completion-style=detailed",
+          "--header-insertion=iwyu",
+          "--limit-results=500",        -- 限制诊断/补全的数量，减少卡顿
+          "--limit-references=1000",    -- 限制引用搜索结果
+          "--limit-parse-depth=10",     -- 限制解析深度
+        },
         cmake = {},
         bashls = {},
         vimls = {},
