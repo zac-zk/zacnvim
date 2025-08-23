@@ -2,7 +2,6 @@ return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
-    local map = require("G").map
     local fzf = require("fzf-lua")
 
     fzf.setup({
@@ -51,10 +50,5 @@ return {
         },
       },
     })
-    map("n", "<leader>ff", require("fzf-lua").files, "文件搜索")
-    map("n", "<leader>fb", require("fzf-lua").buffers, "缓冲区列表")
-    map("n", "<leader>fg", require("fzf-lua").grep, "全文搜索(rg)")
-    map("n", "<leader>fh", require("fzf-lua").oldfiles, "历史文件")
-    map("n", "<leader>fq", require("fzf-lua").quickfix, "快速修复列表")
   end,
 }

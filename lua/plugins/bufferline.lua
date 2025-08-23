@@ -46,14 +46,6 @@ return {
         always_show_bufferline = true,
       },
     })
-    local map = require("G").map
-    map("n", "<leader>bp", "<Cmd>BufferLinePick<CR>", "选择 Buffer")         -- 按字母选择
-    map("n", "<leader>bc", "<Cmd>bdelete<CR>", "关闭当前 Buffer")            -- 关闭当前
-    map("n", "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", "关闭其它 Buffer") -- 关闭其它
-    map("n", "<leader>bl", "<Cmd>BufferLineCycleNext<CR>", "下一个 Buffer")   -- 下一个
-    map("n", "<leader>bh", "<Cmd>BufferLineCyclePrev<CR>", "上一个 Buffer")   -- 上一个
-    map("n", "<leader>bm", "<Cmd>BufferLineMoveNext<CR>", "Buffer 向后移动")  -- 交换位置
-    map("n", "<leader>bn", "<Cmd>BufferLineMovePrev<CR>", "Buffer 向前移动")  -- 交换位置
   end,
 }
 

@@ -12,7 +12,5 @@ return {
       current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
       -- 你也可以配置更多功能
     })
-    local opts = { noremap = true, silent = true }
-    vim.keymap.set("n", "<leader>gb", ":Gitsigns toggle_current_line_blame<CR>", opts)
   end,
 }

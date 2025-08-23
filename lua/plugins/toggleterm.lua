@@ -16,21 +16,6 @@ return {
       close_on_exit = true,
       shell = vim.o.shell,             -- 使用系统 shell
     })
-
-    -- 快速打开水平终端
-    vim.keymap.set("n", "<leader>th", function()
-      require("toggleterm").toggle(1, 15, vim.loop.cwd(), "horizontal")
-    end, { desc = "水平终端" })
-
-    -- 快速打开垂直终端
-    vim.keymap.set("n", "<leader>tv", function()
-      require("toggleterm").toggle(2, 60, vim.loop.cwd(), "vertical")
-    end, { desc = "垂直终端" })
-
-    -- 快速打开浮动终端
-    vim.keymap.set("n", "<leader>tf", function()
-      require("toggleterm").toggle(3, nil, vim.loop.cwd(), "float")
-    end, { desc = "浮动终端" })
   end,
 }
 
