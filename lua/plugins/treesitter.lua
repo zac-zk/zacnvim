@@ -10,12 +10,12 @@ return {
       auto_install = true,
 
       highlight = {
-        enable = true,            -- 启用代码高亮
+        enable = true, -- 启用代码高亮
         additional_vim_regex_highlighting = false,
       },
 
       indent = {
-        enable = true,            -- 启用缩进模块（注意某些语言支持有限）
+        enable = true, -- 启用缩进模块（注意某些语言支持有限）
       },
 
       -- 你可以加更多模块，如增量选择、上下文感知等
@@ -36,4 +36,3 @@ return {
     })
   end,
 }
-

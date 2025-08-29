@@ -23,4 +23,3 @@ function M.map_batch(keys)
 end
 
 return M
-

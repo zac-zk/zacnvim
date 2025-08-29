@@ -26,11 +26,10 @@ return {
     require("mini.bracketed").setup({
       conflict = { suffix = "", options = {} },
       diagnostic = { suffix = "", options = {} },
-      comment = { suffix = "", opions = {}},
+      comment = { suffix = "", opions = {} },
     })
     require('mini.notify').setup()
     require('mini.git').setup()
     require('mini.move').setup()
   end,
 }
-

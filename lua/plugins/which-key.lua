@@ -3,8 +3,7 @@ return {
   event = "VeryLazy",
   config = function()
     require("which-key").setup({
-      plugins = { spelling = true },
-      window = { border = "rounded" },
+      notify = false,
     })
   end,
 }

@@ -1,43 +1,26 @@
 return {
   {
-    "gelguy/wilder.nvim", -- 用于增强命令行补全体验，blink 推荐搭配
-    config = function()
-      -- 可选配置，这里先空着
-      require("wilder").setup()
-    end,
-  },
-
-  {
     "neovim/nvim-lspconfig",
     branch = "main",
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "saghen/blink.cmp",
+      { "saghen/blink.cmp", version = "1.6.0" },
       "glepnir/lspsaga.nvim",
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
+      "gelguy/wilder.nvim", -- 命令行补全
     },
     config = function()
-      -- Mason安装和设置
+      -- Mason 安装与配置
       require("mason").setup()
-
       require("mason-lspconfig").setup({
         ensure_installed = { "clangd", "cmake", "bashls", "lua_ls", "vimls" },
         automatic_installation = true,
       })
 
-      -- lspconfig设置
+      -- LSP 设置
       local lspconfig = require("lspconfig")
-
-      local lua_settings = {
-        Lua = {
-          diagnostics = { globals = { "vim" } },
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
-        },
-      }
-
       local servers = {
         clangd = {
           "clangd",
@@ -45,14 +28,22 @@ return {
           "--clang-tidy",
           "--completion-style=detailed",
           "--header-insertion=iwyu",
-          "--limit-results=500",        -- 限制诊断/补全的数量，减少卡顿
-          "--limit-references=1000",    -- 限制引用搜索结果
-          "--limit-parse-depth=10",     -- 限制解析深度
+          "--limit-results=500",
+          "--limit-references=1000",
+          "--limit-parse-depth=10",
         },
         cmake = {},
         bashls = {},
         vimls = {},
-        lua_ls = { settings = lua_settings },
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = { globals = { "vim" } },
+              workspace = { checkThirdParty = false },
+              telemetry = { enable = false },
+            },
+          },
+        },
       }
 
       for server, opts in pairs(servers) do
@@ -63,66 +54,74 @@ return {
         lspconfig[server].setup(opts)
       end
 
+      -- Wilder: 增强命令行补全
+      local wilder = require("wilder")
+      require("wilder").setup({ modes = { ":", "/", "?" } })
+      -- 使用 popupmenu 渲染 UI（可选: wildmenu）
+      wilder.set_option('renderer', wilder.renderer_mux({
+        [":"] = wilder.popupmenu_renderer(
+          wilder.popupmenu_border_theme({
+            border = "rounded",
+            highlights = {
+              border = "Normal",
+              accent = "Statement",
+            },
+            highlighter = wilder.basic_highlighter(),
+            left = { ' ', wilder.popupmenu_devicons() }, -- 左侧显示图标
+            right = { ' ', wilder.popupmenu_scrollbar() }, -- 右侧滚动条
+          })
+        ),
+        ["/"] = wilder.wildmenu_renderer({
+          highlighter = wilder.basic_highlighter(),
+        }),
+      }))
+
+      -- 高亮渐变效果
+      wilder.set_option('highlighter', wilder.highlighter_with_gradient({
+        wilder.basic_highlighter(),
+      }))
+
+      -- 启用 Devicons 图标
+      wilder.set_option('use_devicons', true)
+
+      -- Blink.cmp: 补全设置
       local blink = require("blink.cmp")
       blink.setup({
         keymap = {
-          preset = "default",
-          ["<Up>"] = { "select_prev", "fallback" },
+          preset     = "default",
+          ["<Up>"]   = { "select_prev", "fallback" },
           ["<Down>"] = { "select_next", "fallback" },
-          ["<CR>"] = { "accept", "fallback" }, -- Enter 确认选择
+          ["<CR>"]   = { "accept", "fallback" },
           ["<Esc>"]  = { "cancel", "fallback" },
         },
         completion = {
           accept = { auto_brackets = { enabled = true } },
           list = { selection = { preselect = true, auto_insert = true } },
-          -- 自动补全设置
           trigger = {
             prefetch_on_insert = true,
-            show_on_insert = true,  -- 输入时自动显示补全菜单
+            show_on_insert = true,
             show_on_trigger_character = true,
           },
         },
-        sources = {
-          default = { "lsp", "path", "buffer", "snippets" },
-        },
-        snippets = {
-          preset = "luasnip",
-        },
+        sources = { default = { "lsp", "path", "buffer", "snippets" } },
+        snippets = { preset = "luasnip" },
         signature = { enabled = true },
       })
 
+      -- Lspsaga: LSP UI 美化
       require("lspsaga").setup({
-        ui = {
-          border = "rounded",
-          -- 其他ui配置可加
-        },
+        ui = { border = "rounded" },
         finder = {
-          keys = {
-            jump_to = "p",  -- 查找结果跳转
-            edit = { "o", "<CR>" },
-            vsplit = "v",
-            split = "s",
-            tabe = "t",
-            quit = { "q", "<ESC>" },
-          },
+          keys = { jump_to = "p", edit = { "o", "<CR>" }, vsplit = "v", split = "s", tabe = "t", quit = { "q", "<ESC>" } },
         },
         definition = {
-          edit = "<CR>",
-          -- 使用弹窗预览定义
-          keys = {
-            edit = "<CR>",
-            vsplit = "v",
-            split = "s",
-            tabe = "t",
-            quit = "q",
-            close = "<Esc>",
-          },
+          keys = { edit = "<CR>", vsplit = "v", split = "s", tabe = "t", quit = "q", close = "<Esc>" },
         },
       })
+
       -- 加载 LuaSnip 和 friendly-snippets
       local luasnip = require("luasnip")
-      require("luasnip.loaders.from_vscode").lazy_load()  -- 加载 vscode 风格 snippet
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
 }
-

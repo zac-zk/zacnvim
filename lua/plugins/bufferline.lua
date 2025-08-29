@@ -5,8 +5,8 @@ return {
   config = function()
     require("bufferline").setup({
       options = {
-        mode = "buffers", -- 显示缓冲区（可改成 "tabs" 显示 tab）
-        numbers = "none", -- "ordinal" 显示编号
+        mode = "buffers",              -- 显示缓冲区（可改成 "tabs" 显示 tab）
+        numbers = "none",              -- "ordinal" 显示编号
         close_command = "bdelete! %d", -- 关闭缓冲区命令
         right_mouse_command = "bdelete! %d",
         left_mouse_command = "buffer %d",
@@ -48,4 +48,3 @@ return {
     })
   end,
 }
-

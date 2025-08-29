@@ -4,10 +4,10 @@ return {
   config = function()
     require("lualine").setup({
       options = {
-        theme = "auto",          -- 自动适配当前颜色方案
+        theme = "auto", -- 自动适配当前颜色方案
         section_separators = { left = "", right = "" },
         component_separators = { left = "", right = "" },
-        globalstatus = true,     -- Neovim 0.7+ 支持，顶级状态栏
+        globalstatus = true, -- Neovim 0.7+ 支持，顶级状态栏
       },
       sections = {
         lualine_a = { "mode" },
@@ -21,4 +21,3 @@ return {
     })
   end,
 }
-
