@@ -9,7 +9,6 @@ return {
       "glepnir/lspsaga.nvim",
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
-      "gelguy/wilder.nvim", -- 命令行补全
     },
     config = function()
       -- Mason 安装与配置
@@ -53,36 +52,6 @@ return {
         }, opts)
         lspconfig[server].setup(opts)
       end
-
-      -- Wilder: 增强命令行补全
-      local wilder = require("wilder")
-      require("wilder").setup({ modes = { ":", "/", "?" } })
-      -- 使用 popupmenu 渲染 UI（可选: wildmenu）
-      wilder.set_option('renderer', wilder.renderer_mux({
-        [":"] = wilder.popupmenu_renderer(
-          wilder.popupmenu_border_theme({
-            border = "rounded",
-            highlights = {
-              border = "Normal",
-              accent = "Statement",
-            },
-            highlighter = wilder.basic_highlighter(),
-            left = { ' ', wilder.popupmenu_devicons() }, -- 左侧显示图标
-            right = { ' ', wilder.popupmenu_scrollbar() }, -- 右侧滚动条
-          })
-        ),
-        ["/"] = wilder.wildmenu_renderer({
-          highlighter = wilder.basic_highlighter(),
-        }),
-      }))
-
-      -- 高亮渐变效果
-      wilder.set_option('highlighter', wilder.highlighter_with_gradient({
-        wilder.basic_highlighter(),
-      }))
-
-      -- 启用 Devicons 图标
-      wilder.set_option('use_devicons', true)
 
       -- Blink.cmp: 补全设置
       local blink = require("blink.cmp")
